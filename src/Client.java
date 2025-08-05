@@ -1,15 +1,62 @@
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
+import java.util.Stack;
+
+/**
+ * For testing purposes only
+ */
 public class Client {
     public static void main(String[] args) {
-        //TIP Press <shortcut actionId="ShowIntentionActions"/> with your caret at the highlighted text
-        // to see how IntelliJ IDEA suggests fixing it.
-        System.out.printf("Hello and welcome!");
+        Stack<Command> history = new Stack<>();
+        Receiver receiver = new Receiver();
+        Invoker invoker = new Invoker();
 
-        for (int i = 1; i <= 5; i++) {
-            //TIP Press <shortcut actionId="Debug"/> to start debugging your code. We have set one <icon src="AllIcons.Debugger.Db_set_breakpoint"/> breakpoint
-            // for you, but you can always add more by pressing <shortcut actionId="ToggleLineBreakpoint"/>.
-            System.out.println("i = " + i);
+        String[] inputs = {
+                "add First_name Last_name Email",
+                "add John Doe simple@example.com",
+                "add Hanna Moon tetter.tots@potatoesarelife.com",
+                "add Ah Boon green-tea@teaforlife.com",
+                "list",
+                "update 3 Adam Moon tetter.tots@potatoesarelife.com",
+                "list",
+                "update 1 blue bell ice-cream@alaskaFields.org",
+                "list",
+                "delete 1",
+                "list",
+                "undo",
+                "list"
+        };
+
+        for (String input : inputs) {
+            System.out.println(input);
+            Command command;
+
+            try {
+                if (input.startsWith("add ")) {
+                    String payload = input.substring(4).trim();
+                    command = new AddCommand(receiver, payload);
+                } else if (input.startsWith("update ")) {
+                    String payload = input.substring(7).trim();
+                    command = new UpdateCommand(receiver, payload);
+                } else if (input.startsWith("delete ")) {
+                    String payload = input.substring(7).trim();
+                    command = new DeleteCommand(receiver, payload);
+                } else if (input.equalsIgnoreCase("list")) {
+                    command = new ListCommand(receiver);
+                } else if (input.equalsIgnoreCase("undo")) {
+                    command = new UndoCommand(history);
+                } else {
+                    System.out.println("Unknown command.");
+                    continue;
+                }
+
+                invoker.setCommandsForExecution(new Command[] { command });
+                invoker.executeCommand(history);
+
+            } catch (Exception e) {
+                System.out.println("Error: " + e.getMessage());
+            }
         }
+
+        // ✅ Save to dataStore.txt
+        receiver.storeToFile();
     }
 }
