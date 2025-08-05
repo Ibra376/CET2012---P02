@@ -48,8 +48,8 @@ public class Receiver {
         taskList.remove(task);
     }
 
-    public void deleteTask(int index){
-        taskList.remove(index);
+    public String deleteTask(int index){
+        return taskList.remove(index);
     }
 
     public void reAddTask(int index, String removedTask) {
