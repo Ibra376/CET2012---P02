@@ -67,10 +67,4 @@ public class Receiver {
     public ArrayList<String> getAllTasks() {
         return new ArrayList<>(taskList); // returns a copy
     }
-
-
-
-
-
-
 }

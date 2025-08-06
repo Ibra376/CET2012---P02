@@ -15,7 +15,19 @@ public class Client {
                 "add Hanna Moon tetter.tots@potatoesarelife.com",
                 "add Ah Boon green-tea@teaforlife.com",
                 "list",
-                "update 3 Adam Moon tetter.tots@potatoesarelife.com",
+                "update 3 Adam",
+                "list",
+                "undo",
+                "list",
+                "update 3 Adam Sun",
+                "list",
+                "undo",
+                "list",
+                "update 3 Adam Sun adamisbest@umail.com",
+                "list",
+                "undo",
+                "list",
+                "update 3 Adam",
                 "list",
                 "update 1 blue bell ice-cream@alaskaFields.org",
                 "list",
@@ -27,7 +39,7 @@ public class Client {
 
         for (String input : inputs) {
             System.out.println(input);
-            Command command;
+            Command command = null;
 
             try {
                 if (input.startsWith("add ")) {
@@ -56,7 +68,7 @@ public class Client {
             }
         }
 
-        // ✅ Save to dataStore.txt
+        // Save to dataStore.txt
         receiver.storeToFile();
     }
 }
